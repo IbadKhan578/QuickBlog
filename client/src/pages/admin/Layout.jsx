@@ -16,8 +16,8 @@ function Layout() {
         </div>
         <div className="flex h-[calc(100vh-70px)]">
           <Sidebar />
+           <Outlet />
         </div>
-        <Outlet />
 
   </>;
 }
