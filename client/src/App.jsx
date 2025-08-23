@@ -7,6 +7,7 @@ import Addblog from './pages/admin/Addblog.jsx'
 import ListBlog from './pages/admin/ListBlog.jsx'
 import Comments from './pages/admin/Comments.jsx'
 import {Routes,Route} from 'react-router-dom'
+import Login from './components/admin/Login.jsx';
 
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/blog/:id' element={<Blog />} />
-        <Route path='/admin' element={<Layout /> }>
+        <Route path='/admin' element={true ? <Layout /> : <Login />}>
           <Route index  element={<Dashboard />} />
           <Route path='addBlog'  element={<Addblog />} />
           <Route path='listBlog'  element={<ListBlog />} />
