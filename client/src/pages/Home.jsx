@@ -4,6 +4,7 @@ import Header from '../components/Header'
 import Bloglist from '../components/bloglist'
 import Blogcard from '../components/Blogcard'
 import Newsletter from '../components/Newsletter'
+import Footer from '../components/Footer'
 
 function Home() {
   return (
@@ -12,6 +13,8 @@ function Home() {
     <Header />
     <Bloglist />
     <Newsletter />
+    <Footer />
+    
     </>
   )
 }
