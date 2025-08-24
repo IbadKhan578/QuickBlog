@@ -8,6 +8,7 @@ import ListBlog from './pages/admin/ListBlog.jsx'
 import Comments from './pages/admin/Comments.jsx'
 import {Routes,Route} from 'react-router-dom'
 import Login from './components/admin/Login.jsx';
+import 'quill/dist/quill.snow.css'
 
 
 function App() {
