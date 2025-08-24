@@ -41,6 +41,7 @@ function Addblog() {
             src={!image ? assets.upload_area : URL.createObjectURL(image)}
             className="mt-2 h-12 cursor-pointer rounded"
             alt=""
+          
           />
           <input
             onChange={(e) => setImage(e.target.files[0])}
@@ -48,6 +49,7 @@ function Addblog() {
             required
             hidden
             id="image"
+            name="image"
           />
         </label>
         <p className="mt-4">Blog title</p>
