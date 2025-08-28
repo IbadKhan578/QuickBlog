@@ -1,9 +1,21 @@
 import React, { useState } from "react";
 import { blog_data, blogCategories } from "../assets/assets.js";
-import { LayoutGroup, motion } from "motion/react"
+import { LayoutGroup, motion } from "motion/react";
 import Blogcard from "./Blogcard.jsx";
+import { useAppContext } from "../Context/Appcontext.jsx";
 function Bloglist() {
   const [menu, setMenu] = useState("All");
+  const { blogs, input } = useAppContext();
+  const filteredBlogs =  () => {
+    if (input === "") {
+      return blogs;
+    }
+    return blogs.filter(
+      (blog) =>
+        blog.title.toLowerCase().includes(input.toLowerCase()) ||
+        blog.category.toLowerCase().includes(input.toLowerCase())
+    );
+  };
   return (
     <div>
       <div className="flex justify-center gap-4 sm:gap-8 my-10 relative">
@@ -17,17 +29,22 @@ function Bloglist() {
             >
               {item}
               {menu === item && (
-                <motion.div layoutId="underline" 
-                transition={{type:'spring', stiffness:500, damping:30}}
-                className="absolute left-0 right-0 top-0 h-7 -z-1 bg-primary rounded-full"></motion.div>
+                <motion.div
+                  layoutId="underline"
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  className="absolute left-0 right-0 top-0 h-7 -z-1 bg-primary rounded-full"
+                ></motion.div>
               )}
             </button>
           </div>
         ))}
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8 mb-24 mx-8 sm:mx-16 xl:mx-40">
-        {blog_data.filter((blog)=> menu=='All'? true : blog.category==menu)
-        .map((blog)=><Blogcard key={blog._id} blog={blog} /> )}
+        {filteredBlogs()
+          .filter((blog) => (menu == "All" ? true : blog.category == menu))
+          .map((blog) => (
+            <Blogcard key={blog._id} blog={blog} />
+          ))}
       </div>
     </div>
   );
