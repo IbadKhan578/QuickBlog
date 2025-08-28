@@ -17,7 +17,7 @@ function Blog() {
   const fetchBlogData=async()=>{
    try {
      const {data} = await  axios.get(`/api/blog/${id}`);
-    data.success? setData(data) : toast.error(data.message)
+    data.success? setData(data.blog) : toast.error(data.message)
     
    } catch (error) {
         toast.error(error.message);
@@ -28,7 +28,8 @@ function Blog() {
 
   const fetchComments = async ()=>{
     try {
-      const {data} = await axios.get('/api/blog/comment',{blogId:id})
+      const { data } = await axios.post('/api/blog/comments', { blogId: id });
+
 
       if(data.success){
         setComments(data.comments)
@@ -46,7 +47,13 @@ function Blog() {
     e.preventDefault();
 
     try {
-       const {data} = await axios.get('/api/blog/add-comment',{blog:id , name , content })
+   //    const {data} = await axios.post('/api/blog/add-comment',{blog:id , name , content })
+       const { data } = await axios.post('/api/blog/add-comment', {
+  blogId: id,
+  name,
+  content
+});
+
        if(data.success){
         toast.success(data.message);
         setName('');

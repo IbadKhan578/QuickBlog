@@ -19,9 +19,9 @@ import comment from '../models/Comment.js';
 
         const fileBuffer = fs.readFileSync(imageFile.path);// convert the image into buffer format
              //  upload image to imagekit
-        const response = await  ImageKit.upload({
+        const response = await  imagekit.upload({
             file: fileBuffer, // file buffer
-      fileName: file.originalname, // original filename
+      fileName: imageFile.originalname, // original filename
       folder: "/blogs"
 
         })
@@ -70,7 +70,7 @@ export const getAllBlog=async( req,res)=>{
 export  const getBlogById = async (req,res)=>{
     try {
         const {blogId} = req.params;
-        const blog = await Blog.find(blogId);
+        const blog = await Blog.findById(blogId);
         if(!blog){
                  return res.json({success:false, message: "Blog not Found"})
         }
@@ -92,7 +92,7 @@ export const DeleteBlogById = async (req,res)=>{
         await Blog.findByIdAndDelete(blogId)
 
         // delete comments associate with this blog too
-        await comment.deleteMany({blog:id})
+        await comment.deleteMany({blog:blogId})
 
 
         res.json({success:true, message:"Blog deleted Successfully" })
@@ -107,9 +107,9 @@ export const DeleteBlogById = async (req,res)=>{
 export const TogglePublish = async (req,res)=>{
     try {
         const {blogId} = req.body;
-        const blog =await Blog.find(blogId)
+        const blog =await Blog.findById(blogId)
         blog.isPublished = !blog.isPublished;
-        await Blog.save();
+        await blog.save();
 
     res.json({success:true, message:"Blog status Updated" })
    
@@ -124,8 +124,8 @@ export const TogglePublish = async (req,res)=>{
 
 export const addComment =async(req,res)=>{
 try {
-    const{blog,name,content} = req.body;
-    await comment.create({blog,name,content});
+    const{blogId,name,content} = req.body;
+    await comment.create({blog:blogId,name,content});
         res.json({success:true, message:"Comment Added for  Review" })
 
     

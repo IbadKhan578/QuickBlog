@@ -1,5 +1,5 @@
 import express from "express";
-import  {addBlog ,addComment,DeleteBlogById, getAllBlog, getBlogComment, TogglePublish } from "../controllers/BlogController.js";
+import  {addBlog ,addComment,DeleteBlogById, getAllBlog, getBlogById, getBlogComment, TogglePublish } from "../controllers/BlogController.js";
 
 
 
@@ -11,7 +11,7 @@ const blogRouter = express.Router();
 
 blogRouter.post('/add',upload.single('image'), auth, addBlog);
 blogRouter.get('/all',getAllBlog);
-blogRouter.get('/:blogId',getAllBlog);
+blogRouter.get('/:blogId',getBlogById);
 blogRouter.post('/delete',auth, DeleteBlogById);
 blogRouter.post('/toggle-publish',auth, TogglePublish);
 

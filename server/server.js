@@ -5,6 +5,7 @@ import connectDB from './configs/db.js';
 import adminRouter from './routes/adminRoute.js';
 import blogRouter from './routes/blogRoute.js';
 
+
 const app = express();
 await connectDB();
 

@@ -1,8 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { assets, blogCategories } from "../../assets/assets";
 import Quill from 'quill';
+import { useAppContext } from "../../Context/Appcontext";
+import toast from "react-hot-toast";
 
 function Addblog() {
+
+  const {axios} = useAppContext();
+  const [isAdding, setIsAdding] = useState(false);
+
   const [image, setImage] = useState(false);
   const [title, setTitle] = useState("");
   const [subTitle, setSubTitle] = useState("");
@@ -16,6 +22,8 @@ function Addblog() {
     // initiate quill only once
     if(!quillRef.current && editorRef.current){
       quillRef.current = new Quill(editorRef.current,{theme: 'snow'})
+
+   
     }
 
   },[])
@@ -23,6 +31,36 @@ function Addblog() {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    try {
+      setIsAdding(true);
+
+      const blog = {
+        title, subTitle , 
+        description : quillRef.current.root.innerHTML,
+        category ,  isPublished
+      }
+
+         const formData = new FormData();
+      formData.append('blog',JSON.stringify(blog));
+      formData.append('image', image);
+
+      const {data} = await axios.post('/api/blog/add',formData);
+      if(data.success){
+        toast.success(data.message);
+        setTitle('');
+        setImage(false);
+        quillRef.current.root.innerHTML=''
+        setCategory('Startup')
+      }else{
+        toast.error(data.message);
+      }
+      
+    } catch (error) {
+      toast.error(error.message);
+      
+    } finally{
+      setIsAdding(false)
+    }
   };
 
   
@@ -41,7 +79,6 @@ function Addblog() {
             src={!image ? assets.upload_area : URL.createObjectURL(image)}
             className="mt-2 h-12 cursor-pointer rounded"
             alt=""
-          
           />
           <input
             onChange={(e) => setImage(e.target.files[0])}
@@ -74,29 +111,45 @@ function Addblog() {
         <p className="mt-4">Blog Description</p>
         <div className="max-w-lg h-74 pb-16 sm:pb-10 pt-2 relative">
           <div ref={editorRef}></div>
-          <button onClick={generateContent} type="button"
-             className="absolute  bottom-1 right-2 ml-2 text-xs text-white bg-black/70 px-4 py-1.5  rounded hover:underline cursor-pointer "   >
+          <button
+            onClick={generateContent}
+            type="button"
+            className="absolute  bottom-1 right-2 ml-2 text-xs text-white bg-black/70 px-4 py-1.5  rounded hover:underline cursor-pointer "
+          >
             Generate with AI
           </button>
         </div>
         <p className="mt-4">Blog category</p>
-        <select onChange={(e)=> e.target.value} name="category" className="mt-2 py-2 px-3 border text-gray-500 border-gray-300 outline-none rounded " >
+        <select   value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          name="category"
+          className="mt-2 py-2 px-3 border text-gray-500 border-gray-300 outline-none rounded "
+        >
           <option value="">Select category</option>
-          {
-            blogCategories.map((item,index)=>
-              <option key={index} value={item}>{item}</option>
-            )
-          }
+          {blogCategories.map((item, index) => (
+            <option key={index} value={item}>
+              {item}
+            </option>
+          ))}
         </select>
         <div className="flex gap-2 mt-4">
           <p>Publish Now</p>
-          <input type="checkbox" onChange={(e)=> setIsPublished(e.target.checked)} checked={isPublished} className="scale-125 cursor-pointer" />
-
+          <input
+            type="checkbox"
+            onChange={(e) => setIsPublished(e.target.checked)}
+            checked={isPublished}
+            className="scale-125 cursor-pointer"
+          />
         </div>
-          <button  className="mt-8 w-40 h-10 text-sm cursor-pointer rounded bg-primary text-white" type="submit">Add Blog</button>
-
-
-
+        <button
+          disabled={isAdding}
+          className="mt-8 w-40 h-10 text-sm cursor-pointer rounded bg-primary text-white"
+          type="submit"
+        >
+        {
+          isAdding ? 'Adding...' : 'Add Blog'
+        }
+        </button>
       </div>
     </form>
   );
