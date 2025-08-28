@@ -1,17 +1,39 @@
 import React, { useState } from 'react'
 import { FaRegEye } from "react-icons/fa";
 import { ImEyeBlocked } from "react-icons/im";
+import { useAppContext } from '../../Context/Appcontext';
+import toast from 'react-hot-toast';
 
 
 
 function Login() {
-
+    const {axios,setToken} = useAppContext();
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
   const [visibility,  setvisibility] = useState(false);
 
   const handleSubmit =  async(e)=>{
     e.preventDefault();
+
+    try {
+
+      let {data} =await  axios.post('/api/admin/login',{email,password});
+
+      if(data.success){
+        setToken(data.token);
+        localStorage.setItem('token',data.token);
+        axios.defaults.headers.common['Authorization'] = data.token;
+      }else{
+        toast.error(data.message);
+      }
+      
+    } catch (error) {
+      toast.error(error.message)
+      
+    }
+
+
+
   }
   return (
     <div className='flex justify-center items-center h-screen'>
