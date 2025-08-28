@@ -48,7 +48,7 @@ function Footer() {
 
         </div>
 
-        <p className='py-6 text-center text-sm md-base text-gray-500/80'>Copyright 2025 © QuickBlog GreatStack - All Right Reserved.</p>
+        <p className='py-6 text-center text-sm md-base text-gray-500/80'>Copyright 2025 © QuickBlog IbadKhan - All Right Reserved.</p>
 
     </div>
   )
