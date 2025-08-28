@@ -35,7 +35,7 @@ export const getAllBlogAdmin = async (req,res)=>{
 export const  getAllCommentAdmin = async (req,res)=>{
     try {
         const comments = await comment.find({}).populate("blog").sort({createdAt:-1})
-        res.josn({success:false, comments})
+        res.json({success:true, comments})
     } catch (error) {
         res.json({success:false , message:error.message })
     }
@@ -45,13 +45,13 @@ export const  getAllCommentAdmin = async (req,res)=>{
 export const getDashboard =  async (req, res)=>{
     try {
         const recentBlogs = await Blog.find({}).sort({createdAt:-1}).limit(5);
-        const blogs = await Blog.countDocument();
-        const comments = await comment.countDocument();
-        const drafts = await Blog.countDocument({isPublished:false})
+        const blogs = await Blog.countDocuments();
+        const comments = await comment.countDocuments();
+        const drafts = await Blog.countDocuments({isPublished:false})
         const dashboardData = {
-            recentBlogs , blogs , comments , drafts , dashboardData
+            recentBlogs , blogs , comments , drafts 
         }
-        res.josn({succeess:true, dashboardData  })
+        res.json({success:true, dashboardData  })
     } catch (error) {
       res.json({success:false , message:error.message })
 
@@ -77,8 +77,8 @@ export const deleteCommentById = async (req,res)=>{
 export const ApproveCommentById = async (req,res)=>{
     try {
         const {id} = req.body;
-        await comment.findByIdAndUpdate(id, {isApproves:true})
-        res.json({succeess:true, message:" Comment Updated Successfully" })
+        await comment.findByIdAndUpdate(id, {isApproved:true})
+        res.json({success:true, message:" Comment Updated Successfully" })
         
     } catch (error) {
     res.json({success:false , message:error.message })

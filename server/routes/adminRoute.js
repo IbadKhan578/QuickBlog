@@ -11,7 +11,7 @@ adminRouter.post('/login',adminLogin);
 adminRouter.get('/comments', auth ,getAllCommentAdmin);
 adminRouter.get('/blogs',auth,getAllBlogAdmin);
 adminRouter.post('/delete-comment',auth,deleteCommentById);
-adminRouter.post('/approve-commnet',auth,ApproveCommentById);
+adminRouter.post('/approve-comment',auth,ApproveCommentById);
 adminRouter.get('/dashboard',auth,getDashboard);
 
 

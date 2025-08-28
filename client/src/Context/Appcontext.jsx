@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Must import this way!
+import { useNavigate } from "react-router-dom"; 
 import axios from 'axios';
 import toast from "react-hot-toast";
 

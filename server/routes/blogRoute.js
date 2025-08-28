@@ -1,5 +1,5 @@
 import express from "express";
-import  {addBlog ,addComment,DeleteBlogById, getAllBlog, getBlogById, getBlogComment, TogglePublish } from "../controllers/BlogController.js";
+import  {addBlog ,addComment,DeleteBlogById, generateContent, getAllBlog, getBlogById, getBlogComment, TogglePublish } from "../controllers/BlogController.js";
 
 
 
@@ -19,7 +19,7 @@ blogRouter.post('/toggle-publish',auth, TogglePublish);
 blogRouter.post('/add-comment', addComment);
 blogRouter.post('/comments', getBlogComment);
 
-
+blogRouter.post('/generate',auth, generateContent)
 
 
 export default blogRouter;
