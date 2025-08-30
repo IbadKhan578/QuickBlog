@@ -1,11 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { blog_data, blogCategories } from "../assets/assets.js";
 import { LayoutGroup, motion } from "motion/react";
 import Blogcard from "./Blogcard.jsx";
 import { useAppContext } from "../Context/Appcontext.jsx";
+import Skeleton from '@mui/material/Skeleton';
+
 function Bloglist() {
   const [menu, setMenu] = useState("All");
+  const [loading,setLoading] = useState(true);
   const { blogs, input } = useAppContext();
+    
+  useEffect(()=>{
+    if(blogs && blogs.length>0){
+      // setLoading(false);
+      setTimeout(()=>{
+          setLoading(false)
+      },2000)
+     
+    }
+  },[blogs])
+
   const filteredBlogs =  () => {
     if (input === "") {
       return blogs;
@@ -40,7 +54,21 @@ function Bloglist() {
         ))}
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8 mb-24 mx-8 sm:mx-16 xl:mx-40">
-        {filteredBlogs()
+        {
+
+          loading ? Array.from(new Array(8)).map((_, index)=>(
+            <Skeleton
+  sx={{ bgcolor: 'grey.900' }}
+  variant="rectangular"
+  width={210}
+  height={118}
+/>
+          ))  :
+        
+        
+        
+        
+        filteredBlogs()
           .filter((blog) => (menu == "All" ? true : blog.category == menu))
           .map((blog) => (
             <Blogcard key={blog._id} blog={blog} />
