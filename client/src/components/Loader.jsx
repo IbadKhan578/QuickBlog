@@ -4,8 +4,11 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 function Loader() {
   return (
-          <CircularProgress color='inherit' disableShrink />
-
+   <Box sx={{ width: 300 }}>
+      <Skeleton />
+      <Skeleton animation="wave" />
+      <Skeleton animation={false} />
+    </Box>
   )
 }
 
