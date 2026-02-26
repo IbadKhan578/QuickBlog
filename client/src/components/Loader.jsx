@@ -1,6 +1,6 @@
 import React from 'react'
-import CircularProgress from "@mui/material/CircularProgress";
-
+import Box from '@mui/material/Box';
+import Skeleton from '@mui/material/Skeleton';
 
 function Loader() {
   return (

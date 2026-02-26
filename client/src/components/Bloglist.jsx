@@ -15,7 +15,7 @@ function Bloglist() {
       // setLoading(false);
       setTimeout(()=>{
           setLoading(false)
-      },2000)
+      },1500)
      
     }
   },[blogs])
